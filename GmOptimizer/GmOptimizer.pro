@@ -2,7 +2,8 @@ QT += qml quick quickcontrols2
 
 CONFIG += c++11
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    class/saver.cpp
 
 RESOURCES += qml.qrc
 
@@ -11,3 +12,6 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
+
+HEADERS += \
+    class/saver.h
