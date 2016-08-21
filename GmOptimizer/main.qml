@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Window 2.0
 
 ApplicationWindow {
     visible: true
@@ -12,6 +13,10 @@ ApplicationWindow {
     title: qsTr("Garry's Mod Optimizer")
     Material.accent: Material.Grey
     Material.theme: Material.Dark
+    FontLoader {
+        id: robotoM
+        source: "./fonts/Roboto-Medium.ttf"
+    }
 
     SwipeView {
         id: swipeView
@@ -28,17 +33,23 @@ ApplicationWindow {
                     id: textedit
                     width: parent.width-29
                     color: "#dbdbdb"
+                    font.family: robotoM.name
+                    font.pointSize: 10
                     anchors.centerIn: parent
-                    text: "d\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\nd\nx\n"
+                    Timer {
+                        interval: 2; running: true; repeat: true
+                        onTriggered: {
+                            if(Saver.returnCode() === ""){
+                                textedit.text = "Nothing here"
+                                saverbutton.enabled = false
+                            }else {
+                                textedit.text = Saver.returnCode()
+                                saverbutton.enabled = true
+                            }
+                        }
+                    }
                 }
             }
-            Button {
-                anchors.bottom: parent.bottom; anchors.right: parent.right;
-                anchors.bottomMargin: 6
-                anchors.rightMargin: 6
-                text: "save"
-            }
-
         }
         Pane {
             id: settingsPage
@@ -86,7 +97,17 @@ ApplicationWindow {
 
         }
     }
-
+    Button {
+        id:saverbutton
+        anchors.bottom: parent.bottom; anchors.right: parent.right;
+        anchors.bottomMargin: 6
+        anchors.rightMargin: 10
+        text: "save"
+        ToolTip.visible: pressed
+        ToolTip.timeout: 2000
+        ToolTip.text: qsTr("Done")
+        onClicked: Saver.save();
+    }
     header: TabBar {
         id: tabBar
         currentIndex: swipeView.currentIndex

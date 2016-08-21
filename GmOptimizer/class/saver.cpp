@@ -4,8 +4,15 @@ Saver::Saver(QObject *parent) : QObject(parent){
 
 }
 
+QString Saver::getPath(){
+    QString toReturn;
+    QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Valve\\Steam", QSettings::NativeFormat);
+    toReturn = settings.value("SteamPath", "0").toString();
+    toReturn += "/steamapps/common/GarrysMod/garrysmod/cfg";
+    return toReturn;
+}
+
 void Saver::setVar(QString value, bool value2){
-    qDebug() << value << " = "<<value2;
     if(value == "Sprays")
         sprays = value2;
     if(value == "3D Sky")
@@ -50,6 +57,13 @@ QString Saver::returnCode(){
         finalCode += rope_code;
     if(!preload)
         finalCode += preload_code;
-    qDebug() << finalCode;
     return finalCode;
+}
+
+void Saver::save(){
+    QFile file(getPath()+="/autoexec.cfg");
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    out << returnCode();
+    file.close();
 }

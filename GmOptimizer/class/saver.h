@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QUrl>
+#include <QSettings>
+#include <QFile>
 
 class Saver : public QObject
 {
@@ -17,8 +20,10 @@ public:
     bool gibs = true;
     bool preload = true;
     bool rope = true;
+    Q_INVOKABLE QString getPath();
     Q_INVOKABLE void setVar(QString value, bool value2);
     Q_INVOKABLE QString returnCode();
+    Q_INVOKABLE void save();
 
 
 signals:

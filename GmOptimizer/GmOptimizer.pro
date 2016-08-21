@@ -1,7 +1,7 @@
 QT += qml quick quickcontrols2
 
 CONFIG += c++11
-
+RC_ICONS = icon.ico
 SOURCES += main.cpp \
     class/saver.cpp
 
